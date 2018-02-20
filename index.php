@@ -38,26 +38,42 @@
 		.leaflet-control-attribution a{
 			color: #DD0005;
 		}
+		.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar{
+			border: 2px solid #717171;
+		}
 		#linenumbers{
 			color: #DD0005;
 			position: absolute;
 			z-index: 1000;
 			left: 80px;
-			top: 30px;
+			top: 29px;
 		}
 		#linenumbers button{
 			color: #000;
-			border: 1px solid #000;
-			margin-right: 3px;
+			border: 2px solid #717171;
+			border-radius: 4px;
+			margin-right: 4px;
+			margin-bottom: 4px;
+			cursor: pointer;
+			font-size: 12px;
+			font-weight: 700;
 		}
-		button:focus {outline:0;}
+		button:focus {
+			outline:0;
+		}
 		#linenumbers button.on{
-			background-color: #DD0005;
-			color: #fff;
+			background-color: #FEC609;
+			color: #000;
+			font-weight: 700;
 		}
 		#linenumbers button.off{
 			background-color: #fff;
 			color: #000;
+			font-weight: 700;
+		}
+		#linenumbers .tramlijn{
+			background-color: #fff;
+			color: #DD0005;
 		}
 		#linenumbers .metrolijn{
 			background-color: #DD0005;
@@ -134,14 +150,16 @@
 
 <div id="linenumbers">
 	<div id="linenumbers2018">
-
+		<div class="tramnrs"></div>
+		<div class="metronrs"></div>
 	</div>
 
 	<div id="linenumbers2017">
-
+		<div class="tramnrs"></div>
+		<div class="metronrs"></div>
 	</div>
-	<button id="to2018" class="off">vanaf 22 juli</button>
 	<button id="to2017" class="on">tot 22 juli</button>
+	<button id="to2018" class="off">vanaf 22 juli</button>
 </div>
 
 <div id="info">
@@ -186,12 +204,16 @@
 		    });
 		    if(layer.feature.properties.linetype == 'metrolijn'){
 		    	layer.setStyle({weight: 3});
-			};
-			
-			$('#linenumbers2018').append($("<button></button>")
+		    	$('#linenumbers2018 .metronrs').append($("<button></button>")
 					.click(function(){showLine(layer.feature.properties.linenr)})
 					.addClass(layer.feature.properties.linetype)
                     .text(layer.feature.properties.linenr));
+			}else{
+				$('#linenumbers2018 .tramnrs').append($("<button></button>")
+					.click(function(){showLine(layer.feature.properties.linenr)})
+					.addClass(layer.feature.properties.linetype)
+                    .text(layer.feature.properties.linenr));
+			}
 	    }
 	}).addTo(map);
 
@@ -214,12 +236,18 @@
 		    });
 		    if(layer.feature.properties.linetype == 'metrolijn'){
 		    	layer.setStyle({weight: 3});
-			};
-			
-			$('#linenumbers2017').append($("<button></button>")
+		    	$('#linenumbers2017 .metronrs').append($("<button></button>")
 					.click(function(){showLine(layer.feature.properties.linenr)})
 					.addClass(layer.feature.properties.linetype)
                     .text(layer.feature.properties.linenr));
+			}else{
+				$('#linenumbers2017 .tramnrs').append($("<button></button>")
+					.click(function(){showLine(layer.feature.properties.linenr)})
+					.addClass(layer.feature.properties.linetype)
+                    .text(layer.feature.properties.linenr));
+			}
+			
+			
 	    }
 	}).addTo(map);
 
