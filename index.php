@@ -41,6 +41,18 @@
 		.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar{
 			border: 2px solid #717171;
 		}
+		#start{
+			color: #000;
+			border: 2px solid #717171;
+			border-radius: 4px;
+			background-color: #FEC609;
+			padding: 10px 20px;
+			width: 420px;
+			text-align: left;
+			position: absolute;
+			right: 0;
+			top:80px;
+		}
 		#linenumbers{
 			color: #DD0005;
 			position: absolute;
@@ -48,8 +60,7 @@
 			left: 80px;
 			top: 29px;
 		}
-		#linenumbers button{
-			color: #000;
+		#linenumbers button, #start button{
 			border: 2px solid #717171;
 			border-radius: 4px;
 			margin-right: 4px;
@@ -71,11 +82,11 @@
 			color: #000;
 			font-weight: 700;
 		}
-		#linenumbers .tramlijn{
+		button.tramlijn{
 			background-color: #fff;
 			color: #DD0005;
 		}
-		#linenumbers .metrolijn{
+		button.metrolijn{
 			background-color: #DD0005;
 			color: #fff;
 		}
@@ -101,16 +112,11 @@
 			margin: 0 0 0 0;
 			font-size: 38px;
 		}
-		#info p.wiki{
+		#info div.wiki{
 			margin:0;
 			font-size: 18px;
 			font-weight: 700;
 			vertical-align: center;
-		}
-		#info p.wiki img{
-			width: 30px;
-			margin-top: -2px;
-			float: left;
 		}
 		#pics{
 			width: 400px;
@@ -126,8 +132,10 @@
 
 		}
 		#pics img{
-			width: 100%;
+			width: 98%;
 			margin-bottom: 20px;
+			border: 3px solid #717171;
+			border-radius: 4px;
 		}
 		#pics span{
 			margin-top: -80px;
@@ -144,7 +152,9 @@
 </head>
 <body>
 
-<div id="album"></div>
+<div id="album">
+</div>
+
 <div id='map'>
 </div>
 
@@ -165,7 +175,28 @@
 <div id="info">
 	<h1>Metro &amp; Tram Amsterdam</h1>
 
-	<p class="wiki"></p>
+	<div class="wiki">
+		<div id="start">
+			<p>Op 22 juli 2018 gaat de Noord/Zuidlijn rijden, en diezelfde dag gaan ook de routes en nummers van de trams op de schop.</p>
+
+			<p>Bekijk de veranderingen hier, door een lijn en de oude of nieuwe dienstregeling te kiezen.</p>
+
+			<p>Bij tramlijnen, metrolijnen en metrostations diepen we foto's uit de archieven op. En linken we naar Wikipedia, waar je zult zien dat er in de geschiedenis wel vaker een lijn verlegd is.</p>
+
+			<p>De volgende tramlijnen zijn al eerder opgeheven en komen op 22 juli niet terug, al rijdt er nu soms een bus onder dat nummer:</p>
+
+			<button onclick="showLostLine('6')" class="tramlijn">6</button>
+			<button onclick="showLostLine('8')" class="tramlijn">8</button>
+			<button onclick="showLostLine('15')" class="tramlijn">15</button>
+			<button onclick="showLostLine('18')" class="tramlijn">18</button>
+			<button onclick="showLostLine('20')" class="tramlijn">20</button>
+			<button onclick="showLostLine('21')" class="tramlijn">21</button>
+			<button onclick="showLostLine('22')" class="tramlijn">22</button>
+			<button onclick="showLostLine('23')" class="tramlijn">23</button>
+			<button onclick="showLostLine('25')" class="tramlijn">25</button>
+			<button onclick="showLostLine('27')" class="tramlijn">27</button>
+		</div>
+	</div>
 
 	
 </div>
@@ -203,7 +234,7 @@
 		        click: whenClicked
 		    });
 		    if(layer.feature.properties.linetype == 'metrolijn'){
-		    	layer.setStyle({weight: 3});
+		    	layer.setStyle({weight: 4});
 		    	$('#linenumbers2018 .metronrs').append($("<button></button>")
 					.click(function(){showLine(layer.feature.properties.linenr)})
 					.addClass(layer.feature.properties.linetype)
@@ -235,7 +266,7 @@
 		        click: whenClicked
 		    });
 		    if(layer.feature.properties.linetype == 'metrolijn'){
-		    	layer.setStyle({weight: 3});
+		    	layer.setStyle({weight: 4});
 		    	$('#linenumbers2017 .metronrs').append($("<button></button>")
 					.click(function(){showLine(layer.feature.properties.linenr)})
 					.addClass(layer.feature.properties.linetype)
@@ -262,7 +293,7 @@
 		    });
 		    
 		    if(layer.feature.properties.linetype == 'metrolijn'){
-		    	layer.setStyle({weight: 3});
+		    	layer.setStyle({weight: 4});
 			};
 	    },
         pointToLayer: function (feature, latlng) {
@@ -336,14 +367,14 @@
 
 	    	lines2018.eachLayer(function(layer) {
 				if(layer.feature.properties.linetype == 'metrolijn'){
-			    	layer.setStyle({weight: 3});
+			    	layer.setStyle({weight: 4});
 				}else{
 					layer.setStyle({weight: 2});
 				}
 		    });
 	    	lines2017.eachLayer(function(layer) {
 				if(layer.feature.properties.linetype == 'metrolijn'){
-			    	layer.setStyle({weight: 3});
+			    	layer.setStyle({weight: 4});
 				}else{
 					layer.setStyle({weight: 2});
 				}
@@ -356,12 +387,22 @@
     	$('#album').html('');
         
         $('#info h1').html(props.stationlabel.replace('Metrostation ',''));
-		$('#info p.wiki').html('gebouwd in ' + props.year);
+		$('#info div.wiki').html('gebouwd in ' + props.year);
 		$('#album').load('station.php?uri=' + props.station);
 	  	
 	}
 
+	function showLostLine(nr){
+		var props = {
+			linenr:nr,
+			linewiki:'https://nl.wikipedia.org/wiki/Tramlijn_' + nr + '_(Amsterdam)',
+			linelabel:'Tramlijn ' + nr
+			};
+		showAlbum(props);
+	}
+
 	function showLine(nr) {
+
 		stations.eachLayer(function(layer) {
 			layer.setStyle({radius: 6});
 	    });
@@ -371,7 +412,7 @@
 		    	layer.setStyle({weight: 6});
 		    	showAlbum(layer.feature.properties);
 			}else if(layer.feature.properties.linetype == 'metrolijn'){
-		    	layer.setStyle({weight: 3});
+		    	layer.setStyle({weight: 4});
 			}else{
 				layer.setStyle({weight: 2});
 			}
@@ -382,7 +423,7 @@
 		    	layer.setStyle({weight: 6});
 		    	showAlbum(layer.feature.properties);
 			}else if(layer.feature.properties.linetype == 'metrolijn'){
-		    	layer.setStyle({weight: 3});
+		    	layer.setStyle({weight: 4});
 			}else{
 				layer.setStyle({weight: 2});
 			}
@@ -395,7 +436,7 @@
 		$('#album').html('');
         
         $('#info h1').html(props.linelabel);
-		$('#info p.wiki').html('<a href="' + props.linewiki + '" target="_blank">' + props.linelabel + ' op Wikipedia &gt;</a>');
+		$('#info div.wiki').html('<a href="' + props.linewiki + '" target="_blank">' + props.linelabel + ' op Wikipedia &gt;</a>');
 		$('#album').load('lijn.php?nr=' + props.linenr);
 	}
 
