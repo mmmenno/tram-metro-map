@@ -142,7 +142,7 @@ function wkt2geojson($wkt){
 			$coordstring = str_replace(array("(",")"), "", $coordstring);
 	    	$pairs = explode(",", $coordstring);
 	    	foreach ($pairs as $k => $v) {
-	    		$coords = explode(" ", $v);
+	    		$coords = explode(" ", trim($v));
 	    		$geom['coordinates'][] = array((double)$coords[0],(double)$coords[1]);
 	    	}
 	    	return $geom;
@@ -152,7 +152,7 @@ function wkt2geojson($wkt){
 			$coordstring = str_replace(array("(",")"), "", $coordstring);
 	    	$pairs = explode(",", $coordstring);
 	    	foreach ($pairs as $k => $v) {
-	    		$coords = explode(" ", $v);
+	    		$coords = explode(" ", trim($v));
 	    		$geom['coordinates'][0][] = array((double)$coords[0],(double)$coords[1]);
 	    	}
 	    	return $geom;
@@ -166,7 +166,7 @@ function wkt2geojson($wkt){
 		    	$pairs = explode(",", $linestring);
 		    	$line = array();
 		    	foreach ($pairs as $k => $v) {
-		    		$coords = explode(" ", $v);
+		    		$coords = explode(" ", trim($v));
 		    		$line[] = array((double)$coords[0],(double)$coords[1]);
 		    	}
 		    	$geom['coordinates'][] = $line;
