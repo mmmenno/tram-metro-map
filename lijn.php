@@ -56,18 +56,19 @@ $url = "https://api.druid.datalegend.net/datasets/adamnet/all/services/endpoint/
 $querylink = "https://druid.datalegend.net/AdamNet/all/sparql/endpoint#query=" . urlencode($sparqlquery) . "&endpoint=https%3A%2F%2Fdruid.datalegend.net%2F_api%2Fdatasets%2FAdamNet%2Fall%2Fservices%2Fendpoint%2Fsparql&requestMethod=POST&outputFormat=table";
 
 
-// Druid does not like url parameters, send accept header instead
-$opts = [
-    "http" => [
-        "method" => "GET",
-        "header" => "Accept: application/sparql-results+json\r\n"
-    ]
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL,$url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+curl_setopt($ch,CURLOPT_USERAGENT,'adamlink');
+$headers = [
+  'Accept: application/sparql-results+json'
 ];
-
-$context = stream_context_create($opts);
-
-// Open the file using the HTTP headers set above
-$json = file_get_contents($url, false, $context);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+$json = curl_exec ($ch);
+curl_close ($ch);
 
 $data = json_decode($json,true);
 

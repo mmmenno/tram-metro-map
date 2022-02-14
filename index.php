@@ -168,8 +168,8 @@
 		<div class="tramnrs"></div>
 		<div class="metronrs"></div>
 	</div>
-	<button id="to2017" class="on">tot 22 juli</button>
-	<button id="to2018" class="off">vanaf 22 juli</button>
+	<button id="to2017" class="on">tot 22 juli 2018</button>
+	<button id="to2018" class="off">vanaf 22 juli 2018</button>
 </div>
 
 <div id="info">
@@ -212,9 +212,9 @@
 
 	
 
-	L.tileLayer('https://korona.geog.uni-heidelberg.de/tiles/roadsg/x={x}&y={y}&z={z}', {
-	maxZoom: 19,
-	attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+		maxZoom: 20,
+		attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 	}).addTo(map);
 
 	L.control.attribution({position: 'bottomleft'}).addTo(map);
